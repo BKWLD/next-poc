@@ -44,7 +44,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const { people } = await execute({
+  console.log('CONTENTFUL_ACCESS_TOKEN', process.env.CONTENTFUL_ACCESS_TOKEN)
+  console.log('params', params)
+  const response = await execute({
     query: `
       query getPerson ($slug: String) {
         people: personCollection(
@@ -71,8 +73,9 @@ export async function getStaticProps({ params }) {
       }`,
     variables: { slug: params.personSlug }
   })
+  console.log('response', response)
   return {
-    props: { person: people.items[0] },
+    props: { person: response.people.items[0] },
     revalidate: 3660, // Re-evaluate cache every hour
   }
 }
