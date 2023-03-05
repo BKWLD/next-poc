@@ -36,8 +36,10 @@ export default function Home({ person }) {
 export async function getStaticPaths() {
   const people = await getPeople()
   return {
-    paths: people.map(person => ({ params: { personSlug: person.slug }})),
-    fallback: false, // can also be true or 'blocking'
+    paths: people
+      .filter(person => person.slug == 'robert-reinhard')
+      .map(person => ({ params: { personSlug: person.slug }})),
+    fallback: 'blocking',
   }
 }
 
