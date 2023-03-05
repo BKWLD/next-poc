@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
+import { execute } from '@/services/contentful'
 
 export default function Home({ people }) {
   return (
@@ -17,7 +18,26 @@ export default function Home({ people }) {
         <ul>
           { people.map(person => (
             <li key={ person.id }>
-              <Link href={ person.url }>
+              <Link href={ person.url } style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+              }}>
+
+                {/* Person thumbnail */}
+                { person.image && <div style={{
+                    position: 'relative',
+                    aspectRatio: person.image.width / person.image.height,
+                    width: 24,
+                    marginRight: 10,
+                  }} >
+                  <Image
+                    src={ person.image.url }
+                    fill
+                    sizes='24px'
+                    alt={ person.image.title } />
+                </div>}
+
+                {/* Person name */}
                 { person.name }
               </Link>
             </li>
@@ -37,27 +57,29 @@ export async function getStaticProps(context) {
 }
 
 // Get all the people from Bukwild's old Contentful space
-async function getPeople() {
-  const response = await fetch(`https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
-    },
-    body: JSON.stringify({ query: `query {
+export async function getPeople() {
+  const { people } = await execute({ query: `
+    query getPeople {
       people: personCollection(order: name_ASC) {
         items {
           ...on Person {
             sys { id }
             name
             slug
+            image {
+              ...on Asset {
+                title
+                url
+                width
+                height
+              }
+            }
           }
         }
       }
-    }`})
-  })
-  const data = await response.json()
-  return data.data.people.items
+    }
+  `})
+  return people.items
     .filter(person => !!person.name)
     .map(person => ({
       ...person,
