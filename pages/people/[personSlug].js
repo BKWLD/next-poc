@@ -73,5 +73,6 @@ export async function getStaticProps({ params }) {
   })
   return {
     props: { person: people.items[0] },
+    revalidate: 3660, // Re-evaluate cache every hour
   }
 }
