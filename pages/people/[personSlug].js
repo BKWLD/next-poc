@@ -75,7 +75,6 @@ export async function getStaticProps({ params }) {
   })
   console.log('response', response)
   return {
-    props: { person: response.people.items[0] },
-    revalidate: 3660, // Re-evaluate cache every hour
+    props: { person: response.people.items[0] }
   }
 }
