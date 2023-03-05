@@ -44,9 +44,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  console.log('CONTENTFUL_ACCESS_TOKEN', process.env.CONTENTFUL_ACCESS_TOKEN)
-  console.log('params', params)
-  const response = await execute({
+  const { people } = await execute({
     query: `
       query getPerson ($slug: String) {
         people: personCollection(
@@ -73,8 +71,7 @@ export async function getStaticProps({ params }) {
       }`,
     variables: { slug: params.personSlug }
   })
-  console.log('response', response)
   return {
-    props: { person: response.people.items[0] }
+    props: { person: people.items[0] }
   }
 }
