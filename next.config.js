@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+
+require('dotenv-vault-core').config()
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
