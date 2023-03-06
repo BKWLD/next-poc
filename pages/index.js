@@ -19,7 +19,7 @@ export default function Home({ people, preview }) {
         </h1>
 
         {/* https://stackoverflow.com/a/75102552/59160 */}
-        <Image src={logo} loader={({src}) => src} alt='Logo' />
+        <Image src={logo} alt='Logo' />
 
         {/* List of people */}
         <h2>People from previous Bukwild site</h2>
