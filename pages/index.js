@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import { execute } from '@/lib/contentful'
+import logo from '@/assets/logo.png'
 
 export default function Home({ people, preview }) {
   return (
@@ -11,10 +12,14 @@ export default function Home({ people, preview }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
+
         <h1>
           Next POC
           { preview && <span> (preview mode)</span> }
         </h1>
+
+        {/* https://stackoverflow.com/a/75102552/59160 */}
+        <Image src={logo} loader={({src}) => src} alt='Logo' />
 
         {/* List of people */}
         <h2>People from previous Bukwild site</h2>
