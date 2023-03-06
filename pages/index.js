@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
-import { execute } from '@/services/contentful'
+import { execute } from '@/lib/contentful'
 
-export default function Home({ people }) {
+export default function Home({ people, preview }) {
   return (
     <>
       <Head>
@@ -11,7 +11,10 @@ export default function Home({ people }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
-        <h1>Next POC</h1>
+        <h1>
+          Next POC
+          { preview && <span> (preview mode)</span> }
+        </h1>
 
         {/* List of people */}
         <h2>People from previous Bukwild site</h2>
@@ -49,36 +52,43 @@ export default function Home({ people }) {
   )
 }
 
-export async function getStaticProps(context) {
-  const people = await getPeople()
+export async function getStaticProps({ preview = false }) {
+  const people = await getPeople({ preview })
   return {
-    props: { people },
+    props: { people, preview },
   }
 }
 
 // Get all the people from Bukwild's old Contentful space
-export async function getPeople() {
-  const { people } = await execute({ query: `
-    query getPeople {
-      people: personCollection(order: name_ASC) {
-        items {
-          ...on Person {
-            sys { id }
-            name
-            slug
-            image {
-              ...on Asset {
-                title
-                url
-                width
-                height
+export async function getPeople({ preview }) {
+  const { people } = await execute({
+    preview,
+    variables: {
+      preview: !!preview,
+    },
+    query: `
+      query getPeople($preview: Boolean) {
+        people: personCollection(
+          preview: $preview
+          order: name_ASC) {
+          items {
+            ...on Person {
+              sys { id }
+              name
+              slug
+              image {
+                ...on Asset {
+                  title
+                  url
+                  width
+                  height
+                }
               }
             }
           }
         }
       }
-    }
-  `})
+    `})
   return people.items
     .filter(person => !!person.name)
     .map(person => ({

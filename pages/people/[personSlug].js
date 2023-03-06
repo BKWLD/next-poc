@@ -2,9 +2,9 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getPeople } from '@/pages/index'
-import { execute } from '@/services/contentful'
+import { execute } from '@/lib/contentful'
 
-export default function Home({ person }) {
+export default function Person({ person, preview }) {
   return (
     <>
       <Head>
@@ -14,7 +14,10 @@ export default function Home({ person }) {
       <main>
 
         {/* Name */}
-        <h1>{ person.name }</h1>
+        <h1>
+          { person.name }
+          { preview && <span> (preview mode)</span> }
+        </h1>
         <p><Link href='/'>Back</Link></p>
 
         {/* Image */}
@@ -33,8 +36,8 @@ export default function Home({ person }) {
   )
 }
 
-export async function getStaticPaths() {
-  const people = await getPeople()
+export async function getStaticPaths({ preview }) {
+  const people = await getPeople({ preview })
   return {
     paths: people
       .filter(person => person.slug == 'robert-reinhard')
@@ -43,12 +46,18 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params, preview = false }) {
   const { people } = await execute({
+    preview,
+    variables: {
+      slug: params.personSlug,
+      preview: !!preview,
+    },
     query: `
-      query getPerson ($slug: String) {
+      query getPerson ($slug: String, $preview: Boolean) {
         people: personCollection(
-          limit: 1,
+          preview: $preview
+          limit: 1
           where: { slug: $slug }
         ) {
           items {
@@ -68,10 +77,12 @@ export async function getStaticProps({ params }) {
             }
           }
         }
-      }`,
-    variables: { slug: params.personSlug }
+      }`
   })
   return {
-    props: { person: people.items[0] }
+    props: {
+      person: people.items[0],
+      preview,
+    }
   }
 }
