@@ -1,7 +1,9 @@
-/** @type {import('next').NextConfig} */
-
 require('dotenv-vault-core').config()
 
+const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin')
+const withVanillaExtract = createVanillaExtractPlugin();
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -10,4 +12,4 @@ const nextConfig = {
   }
 }
 
-module.exports = nextConfig
+module.exports = withVanillaExtract(nextConfig)

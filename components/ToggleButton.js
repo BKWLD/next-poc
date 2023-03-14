@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { base } from './ToggleButton.css.ts'
+
 export default function ToggleButton() {
 
   // Setup toggle state
@@ -7,8 +9,11 @@ export default function ToggleButton() {
 
   // Render template
   return (
-    <button onClick={ () => setActive(!isActive) }>
+    <button
+      className={ base }
+      onClick={ () => setActive(!isActive) }>
       Click Me ({ isActive ? 'Artice' : 'Inactive' })
     </button>
   )
 }
+
