@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import { execute } from '@/lib/contentful'
+import ToggleButton from '@/components/ToggleButton'
 import logo from '@/assets/logo.png'
 
 export default function Home({ people, preview }) {
@@ -13,13 +14,16 @@ export default function Home({ people, preview }) {
       </Head>
       <main>
 
+        {/* Title */}
         <h1>
           Next POC
           { preview && <span> (preview mode)</span> }
         </h1>
-
-        {/* https://stackoverflow.com/a/75102552/59160 */}
         <Image src={logo} alt='Logo' />
+
+        {/* Styling component */}
+        <h2>Styling using Vanilla Extract</h2>
+        <ToggleButton />
 
         {/* List of people */}
         <h2>People from previous Bukwild site</h2>

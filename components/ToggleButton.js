@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { base } from './ToggleButton.css.ts'
+import { buttonStyles, textStyles } from './ToggleButton.css.ts'
 
 export default function ToggleButton() {
 
@@ -10,9 +10,11 @@ export default function ToggleButton() {
   // Render template
   return (
     <button
-      className={ base }
+      className={ buttonStyles[ isActive ? 'active' : 'inactive' ] }
       onClick={ () => setActive(!isActive) }>
-      Click Me ({ isActive ? 'Artice' : 'Inactive' })
+      <span className={ textStyles[ isActive ? 'active' : 'inactive' ] }>
+        Click Me ({ isActive ? 'Active' : 'Inactive' })
+      </span>
     </button>
   )
 }
