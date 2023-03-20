@@ -22,7 +22,7 @@ export default function Home({ people, preview }) {
         <Image src={logo} alt='Logo' />
 
         {/* Styling component */}
-        <h2>Styling using Vanilla Extract</h2>
+        <h2>Styling using Linaria</h2>
         <ToggleButton />
 
         {/* List of people */}
