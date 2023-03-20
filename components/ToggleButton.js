@@ -44,6 +44,6 @@ const Button = styled.button`
   > span {
     display: inline-block;
     transition: transform .2s ease-out;
-    transform: ${props => props.isActive && 'scale(1.1) rotate(2deg)' };
+    transform: ${props => props.isActive ? 'scale(1.1) rotate(2deg)' : 'none' };
   }
 `
