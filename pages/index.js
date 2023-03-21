@@ -19,7 +19,7 @@ export default function Home({ people, preview }) {
           Next POC
           { preview && <span> (preview mode)</span> }
         </h1>
-        <Image src={logo} alt='Logo' />
+        <Image src={logo} alt='Logo' priority unoptimized/>
 
         {/* Styling component */}
         <h2>Styling using Vanilla Extract</h2>
