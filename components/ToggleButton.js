@@ -23,10 +23,8 @@ const breakpoint = 768,
   teal = '#23485f'
 
 const Button = styled.button`
+  @apply px-4 py-2 border-0 text-white;
   appearance: none;
-  color: white;
-  padding: 15px;
-  border: none;
 
   background: ${props => props.isActive ? teal : 'black' };
   &:hover {
@@ -34,16 +32,15 @@ const Button = styled.button`
   }
 
   @media (min-width: ${breakpoint + 1}px) {
-    font-size: 1.25em;
+    @apply text-lg;
   }
   @media (max-width: ${breakpoint}px) {
-    padding: 10px;
+    @apply px-2 py-1;
   }
 
   /* Not possible in vanilla-extact (though not really a good practice ) */
   > span {
-    display: inline-block;
-    transition: transform .2s ease-out;
+    @apply inline-block transition-all;
     transform: ${props => props.isActive ? 'scale(1.1) rotate(2deg)' : 'none' };
   }
 `
