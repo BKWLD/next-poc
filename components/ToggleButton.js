@@ -40,7 +40,7 @@ const Button = styled.button`
 
   /* Not possible in vanilla-extact (though not really a good practice ) */
   > span {
-    @apply inline-block transition-all;
+    @apply inline-block transition-transform;
     transform: ${props => props.isActive ? 'scale(1.1) rotate(2deg)' : 'none' };
   }
 `
