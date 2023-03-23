@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { styled } from '@linaria/react';
-import { lighten } from 'polished'
+import clsx from 'clsx'
 
 export default function ToggleButton() {
 
@@ -9,41 +8,25 @@ export default function ToggleButton() {
 
   // Render template
   return (
-    <Button
-      isActive={ isActive }
-      onClick={ () => setActive(!isActive) }>
-      <span>
+    <button
+      onClick={ () => setActive(!isActive) }
+      className={clsx([
+        'px-2 md:px-4 py-1 md:py-2',
+        'border-0 apperance-none',
+        'text-white md:text-lg',
+        isActive ?
+          'bg-teal hover:bg-teal-light' :
+          'bg-black hover:bg-black-light',
+      ])}>
+
+      {/* The text inside the button */}
+      <span className={clsx([
+        'inline-block transition-transform',
+        { 'scale-110 rotate-2': isActive }
+      ])}>
         Click Me ({ isActive ? 'Active' : 'Inactive' })
       </span>
-    </Button>
+
+    </button>
   )
 }
-
-const breakpoint = 768,
-  teal = '#23485f'
-
-const Button = styled.button`
-  appearance: none;
-  color: white;
-  padding: 15px;
-  border: none;
-
-  background: ${props => props.isActive ? teal : 'black' };
-  &:hover {
-    background: ${props => lighten(.1, props.isActive ? teal : 'black') };
-  }
-
-  @media (min-width: ${breakpoint + 1}px) {
-    font-size: 1.25em;
-  }
-  @media (max-width: ${breakpoint}px) {
-    padding: 10px;
-  }
-
-  /* Not possible in vanilla-extact (though not really a good practice ) */
-  > span {
-    display: inline-block;
-    transition: transform .2s ease-out;
-    transform: ${props => props.isActive ? 'scale(1.1) rotate(2deg)' : 'none' };
-  }
-`

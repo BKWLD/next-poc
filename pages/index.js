@@ -12,22 +12,22 @@ export default function Home({ people, preview }) {
         <title>Homepage</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <main>
+      <main className='px-4 py-4 space-y-4'>
 
         {/* Title */}
-        <h1>
+        <h1 className='text-4xl font-bold'>
           Next POC
           { preview && <span> (preview mode)</span> }
         </h1>
         <Image src={logo} alt='Logo' priority unoptimized/>
 
         {/* Styling component */}
-        <h2>Styling using Linaria</h2>
+        <Subhead>Styling using Linaria</Subhead>
         <ToggleButton />
 
         {/* List of people */}
-        <h2>People from previous Bukwild site</h2>
-        <ul>
+        <Subhead>People from previous Bukwild site</Subhead>
+        <ul className='list-disc list-inside'>
           { people.map(person => (
             <li key={ person.id }>
               <Link href={ person.url } style={{
@@ -58,6 +58,15 @@ export default function Home({ people, preview }) {
 
       </main>
     </>
+  )
+}
+
+// Dry up h2 styling
+function Subhead({ children }) {
+  return (
+    <h2 className='text-2xl mt-8 font-bold'>
+      { children }
+    </h2>
   )
 }
 
