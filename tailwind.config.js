@@ -1,3 +1,5 @@
+const { lighten } = require('polished')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -7,7 +9,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        teal: '#23485f'
+        blackLight: lighten(.1, 'black'),
+        teal: '#23485f',
+        tealLight: lighten(.1, '#23485f')
       }
     },
   },
